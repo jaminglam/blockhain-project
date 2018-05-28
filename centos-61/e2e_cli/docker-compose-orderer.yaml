@@ -1,0 +1,29 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  dev-orderer.local:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: dev-orderer.local
+    container_name: dev-orderer.local
+    volumes:
+      # 数据固化，将orderer的数据映射到本地
+      - ./chainData/orderer/dev-orderer/:/var/hyperledger/production/
+      - ./crypto-config/ordererOrganizations/local/orderers/dev-orderer.local/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/local/orderers/dev-orderer.local/tls:/var/hyperledger/orderer/tls
+    extra_hosts:
+      - "z1:192.168.33.62"
+      - "z2:192.168.33.63"
+      - "z3:192.168.33.64"
+      - "k4:192.168.33.61"
+      - "k1:192.168.33.62"
+      - "k2:192.168.33.63"
+      - "k3:192.168.33.64"
+      - "dev-orderer.local:192.168.33.61"
+

@@ -1,0 +1,91 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  dev-orderer.local:
+   
+    extends:
+      file: orderer-base.yaml
+      service: orderer-base
+    
+    container_name: dev-orderer.local
+    
+    volumes:
+      - ../crypto-config/ordererOrganizations/local/orderers/dev-orderer.local/msp:/var/hyperledger/orderer/msp
+      - ../crypto-config/ordererOrganizations/local/orderers/dev-orderer.local/tls:/var/hyperledger/orderer/tls
+
+  dev-peer0.orgtfi.local:
+    container_name: dev-peer0.orgtfi.local
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=dev-peer0.orgtfi.local
+      - CORE_PEER_ADDRESS=dev-peer0.orgtfi.local:7051
+      - CORE_PEER_CHAINCODELISTENADDRESS=dev-peer0.orgtfi.local:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=dev-peer0.orgtfi.local:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=dev-peer0.orgtfi.local:7051 
+      - CORE_PEER_LOCALMSPID=OrgTFIMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        # 数据固化，将peer的数据映射到本地，防止丢失
+        - ./chainData/peer/devpeer0orgtfi:/var/hyperledger/production/
+        - ../crypto-config/peerOrganizations/orgtfi.local/peers/dev-peer0.orgtfi.local/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/orgtfi.local/peers/dev-peer0.orgtfi.local/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7051:7051
+      - 7052:7052
+      - 7053:7053
+
+  dev-peer0.orgopensky.local:
+    container_name: dev-peer0.orgopensky.local
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=dev-peer0.orgopensky.local
+      - CORE_PEER_ADDRESS=dev-peer0.orgopensky.local:7051
+      - CORE_PEER_CHAINCODELISTENADDRESS=dev-peer0.orgopensky.local:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=dev-peer0.orgopensky.local:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=dev-peer0.orgopensky.local:7051 
+      - CORE_PEER_LOCALMSPID=OrgOpenskyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        # 数据固化，将peer的数据映射到本地，防止丢失
+        - ./chainData/peer/devpeer0orgopensky:/var/hyperledger/production/
+        - ../crypto-config/peerOrganizations/orgopensky.local/peers/dev-peer0.orgopensky.local/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/orgopensky.local/peers/dev-peer0.orgopensky.local/tls:/etc/hyperledger/fabric/tls
+
+    ports:
+      - 7051:7051
+      - 7052:7052
+      - 7053:7053
+
+  dev-peer2.orgcandy.local:
+    container_name: dev-peer2.orgcandy.local 
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=dev-peer2.orgcandy.local      
+      - CORE_PEER_ADDRESS=dev-peer2.orgcandy.local:7051
+      - CORE_PEER_CHAINCODELISTENADDRESS=dev-peer2.orgcandy.local:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=dev-peer2.orgcandy.local:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=dev-peer2.orgcandy.local:7051 
+      - CORE_PEER_LOCALMSPID=OrgCandyMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        # 数据固化，将peer的数据映射到本地，防止丢失
+        - ./chainData/peer/devpeer2orgcandy:/var/hyperledger/production/
+        - ../crypto-config/peerOrganizations/orgcandy.local/peers/dev-peer2.orgcandy.local/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/orgcandy.local/peers/dev-peer2.orgcandy.local/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7051:7051
+      - 7052:7052
+      - 7053:7053
+
