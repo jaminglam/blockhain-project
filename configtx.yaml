@@ -94,7 +94,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.orgopensky.local
+            - Host: dev-peer0.orgopensky.local
               Port: 7051
 
 
@@ -112,7 +112,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer2.orgcandy.local
+            - Host: dev-peer2.orgcandy.local
               Port: 7051
 ################################################################################
 #
